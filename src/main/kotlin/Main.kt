@@ -1,10 +1,16 @@
+import javax.xml.stream.events.Comment
+
 data class Post(
     val id: Int,
-    val authorId: Int,
+    val ownerId: Int,
+    val fromId: Int,
+    val createdBy: Int,
     val authorName: String,
-    val content: String,
+    val text: String,
+    val replyOwnerId: Int,
+    val replyPostId: Int,
     val published: Long,
-    val likes: Int
+    val likes: Int,
 )
 
 
@@ -52,8 +58,8 @@ object WallService {
 
 fun main(args: Array<String>) {
 
-    WallService.add(Post( 1, 2, "Hello!", "hi", 33,2))
+    WallService.add(Post( 1, 2,1,3, "Hello!", "hi", 3,33,3,2))
     WallService.printPosts()
-    WallService.update(Post(1,2,"Kira", "hi!!",33,2))
+    WallService.update(Post(1,2,1,3,"Kira", "hi!!",3,33,3,2))
     WallService.printPosts()
 }
