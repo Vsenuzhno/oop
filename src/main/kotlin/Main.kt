@@ -1,25 +1,25 @@
-import javax.xml.stream.events.Comment
-
 data class Post(
-    val id: Int,
-    val ownerId: Int,
-    val fromId: Int,
-    val createdBy: Int,
-    val authorName: String,
-    val text: String,
-    val replyOwnerId: Int,
-    val replyPostId: Int,
-    val published: Long,
-    val likes: Int,
+    val id: Int = 0,
+    val ownerId: Int = 0,
+    val fromId: Int = 0,
+    val createdBy: Int = 0,
+    val authorName: String = "",
+    val text: String = "",
+    val replyOwnerId: Int = 0,
+    val replyPostId: Int = 0,
+    val published: Long = 0,
+    val likes: Int = 0,
+    val numbersOfComments: NumbersOfComments = NumbersOfComments()
 )
 
+data class NumbersOfComments(val numbersOfComments: Int = 0)
 
 object WallService {
     var posts = emptyArray<Post>()
     private var nextId = 0
 
     fun add(post: Post): Post {
-        posts += post.copy(id = ++nextId)
+        posts += post.copy(id = ++nextId, numbersOfComments = post.numbersOfComments.copy())
         return posts.last()
     }
 
@@ -33,8 +33,8 @@ object WallService {
         return false
     }
 
-    fun printPosts(){
-        for (post in posts){
+    fun printPosts() {
+        for (post in posts) {
             print(post)
             print(" ")
         }
@@ -48,6 +48,7 @@ object WallService {
             }
         }
     }
+
     fun clear() {
         posts = emptyArray()
         nextId = 0
@@ -55,11 +56,11 @@ object WallService {
 }
 
 
-
 fun main(args: Array<String>) {
 
-    WallService.add(Post( 1, 2,1,3, "Hello!", "hi", 3,33,3,2))
+    val numbersOfComments = NumbersOfComments(3)
+    WallService.add(Post(1, 2, 1, 3, "Hello!", "hi", 3, 33, 3, 2, numbersOfComments))
     WallService.printPosts()
-    WallService.update(Post(1,2,1,3,"Kira", "hi!!",3,33,3,2))
+    WallService.update(Post(1, 2, 1, 3, "Kira", "hi!!", 3, 33, 3, 2, numbersOfComments))
     WallService.printPosts()
 }
