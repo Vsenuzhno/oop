@@ -19,7 +19,7 @@ fun main() {
             2,
             1,
             3,
-            "Hello!",
+            "Привет, вот первый пост!",
             "hi",
             3,
             33,
@@ -40,5 +40,6 @@ fun main() {
     val comment = Comment(1, 1, 2, "Новый комментарий", 123)
     val createdComment = WallService.createComment(1, comment)
     println("$createdComment")
+
 
 }

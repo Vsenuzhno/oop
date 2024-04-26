@@ -1,5 +1,5 @@
-import org.junit.Assert.assertFalse
-import org.junit.Assert.assertTrue
+import WallService.createReport
+import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
 
@@ -36,9 +36,28 @@ class WallServiceTest {
     }
 
     @Test(expected = PostNotFoundException::class)
-    fun createComment_nonExistingPost() {
+    fun createCommentNonExistingPost() {
         val comment = Comment(1, 2, 1, "Comment text", 3, 33)
         WallService.createComment(100, comment)
     }
 
+    @Test
+    fun testCreateReportInvalidReason() {
+        try {
+            createReport(1, 1, 9)
+            fail("Некорректная причина")
+        } catch (e: IllegalArgumentException) {
+            assertEquals("Причина жалобы не существует: 9", e.message)
+        }
+    }
+
+    @Test
+    fun testCreateReportNonExistingComment() {
+        try {
+            createReport(1, 2, 1)
+            fail("Некорректный идентификатор комментария")
+        } catch (e: CommentNotFoundException) {
+            assertEquals("Комментарий с id 2 не найден", e.message)
+        }
+    }
 }

@@ -22,4 +22,10 @@ data class Comment(
     val replyToComment: Int? = null
 )
 
+data class Report(
+    val ownerId: Int = 0,
+    val commentId: Int = 0,
+    val reason: Int = 0
+)
+
 data class NumbersOfComments(val numbersOfComments: Int = 0)

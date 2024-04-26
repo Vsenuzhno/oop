@@ -1,9 +1,12 @@
 class PostNotFoundException(message: String) : RuntimeException(message)
+class CommentNotFoundException(message: String) : RuntimeException(message)
+class IllegalArgumentException(message: String) : RuntimeException(message)
 
 object WallService {
 
     private var posts = emptyArray<Post>()
-    private var comments = emptyArray<Comment>()
+    private var comments = mutableListOf<Comment>()
+    private var reports = mutableListOf<Report>()
     private var nextId = 0
     private var nextCommentId = 0
 
@@ -66,6 +69,15 @@ object WallService {
         return comments.last()
     }
 
+    fun createReport(ownerId: Int, commentId: Int, reason: Int) {
+        if (!comments.any { it.id == commentId }) {
+            throw CommentNotFoundException("Комментарий с id $commentId не найден")
+        }
+        if (reason !in 0..8) {
+            throw IllegalArgumentException("Причина жалобы не существует: $reason")
+        }
+        reports.add(Report(ownerId = ownerId, commentId = commentId, reason = reason))
+    }
 
     fun clear() {
         posts = emptyArray()
